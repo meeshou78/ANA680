@@ -1,0 +1,73 @@
+<!-- File: templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Breast Cancer Predictor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0; padding: 0;
+    }
+    .container {
+      width: 400px;
+      margin: 60px auto;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 { text-align: center; color: #333; }
+    form input, form select {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 18px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Breast Cancer Classifier</h2>
+    <form method="POST" action="/predict">
+      {% set fields = [
+        "Clump_thickness", "Uniformity_of_cell_size", "Uniformity_of_cell_shape",
+        "Marginal_adhesion", "Single_epithelial_cell_size", "Bare_nuclei",
+        "Bland_chromatin", "Normal_nucleoli", "Mitoses"] %}
+
+      {% for field in fields %}
+        <label for="{{ field }}">{{ field.replace('_', ' ').title() }}</label>
+        <select name="{{ field }}" required>
+          {% for i in range(1, 11) %}
+            <option value="{{ i }}">{{ i }}</option>
+          {% endfor %}
+        </select>
+      {% endfor %}
+
+      <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction_text %}
+      <div class="result">{{ prediction_text }}</div>
+    {% endif %}
+  </div>
+</body>
+</html>
