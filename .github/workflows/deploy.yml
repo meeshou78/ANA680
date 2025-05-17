@@ -3,7 +3,7 @@ name: Deploy to Heroku
 on:
   push:
     branches:
-      - main  # or your default branch
+      - WK2_Assignment_Files  # or your default branch
 
 jobs:
   deploy:
