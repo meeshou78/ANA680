@@ -1,9 +1,10 @@
+# .github/workflows/deploy.yml
 name: Deploy to Heroku
 
 on:
   push:
     branches:
-      - WK2_Assignment_Files  # or your default branch
+      - WK2_Assignment_Files
 
 jobs:
   deploy:
@@ -16,16 +17,19 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
-        python-version: 3.10
+        python-version: '3.10'
 
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Deploy to Heroku
+    - name: Add Heroku Remote (if not exists)
+      run: |
+        git remote | grep heroku || git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+
+    - name: Push to Heroku
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
-        git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
         git push heroku HEAD:main --force
