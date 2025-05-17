@@ -8,15 +8,24 @@
 <body>
     <h2>Breast Cancer Predictor</h2>
     <form method="post" action="/predict">
-        <label>Clump Thickness:</label><input type="number" name="Clump_thickness"><br>
-        <label>Uniformity of Cell Size:</label><input type="number" name="Uniformity_of_cell_size"><br>
-        <label>Uniformity of Cell Shape:</label><input type="number" name="Uniformity_of_cell_shape"><br>
-        <label>Marginal Adhesion:</label><input type="number" name="Marginal_adhesion"><br>
-        <label>Single Epithelial Cell Size:</label><input type="number" name="Single_epithelial_cell_size"><br>
-        <label>Bare Nuclei:</label><input type="number" name="Bare_nuclei"><br>
-        <label>Bland Chromatin:</label><input type="number" name="Bland_chromatin"><br>
-        <label>Normal Nucleoli:</label><input type="number" name="Normal_nucleoli"><br>
-        <label>Mitoses:</label><input type="number" name="Mitoses"><br>
+        {% for feature in [
+            "Clump_thickness",
+            "Uniformity_of_cell_size",
+            "Uniformity_of_cell_shape",
+            "Marginal_adhesion",
+            "Single_epithelial_cell_size",
+            "Bare_nuclei",
+            "Bland_chromatin",
+            "Normal_nucleoli",
+            "Mitoses"
+        ] %}
+            <label>{{ feature.replace('_', ' ').title() }}:</label>
+            <select name="{{ feature }}">
+                {% for i in range(1, 11) %}
+                    <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select><br>
+        {% endfor %}
         <button type="submit">Predict</button>
     </form>
 
@@ -25,3 +34,4 @@
     {% endif %}
 </body>
 </html>
+
