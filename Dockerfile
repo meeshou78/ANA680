@@ -1,6 +1,6 @@
-# Dockerfile
+# File: Dockerfile
 FROM python:3.9
 WORKDIR /app
-COPY . .
-RUN pip install --no-cache-dir -r requirements.txt
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+COPY . /app
+RUN pip install -r requirements.txt
+CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:8080"]
